@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>{$post_title} {$site_name} </title>
+		<meta name="keywords" content="{$post_keywords}" />
+		<meta name="description" content="{$post_excerpt}">
+		<tc_include file="Public:head" />
+		<style>
+			#article_content img{height:auto !important}
+			#article_content {word-wrap: break-word;}
+    		.btn {margin-top: 33px;}
+		</style>
+	</head>
+<body class="">
+<tc_include file="Public:nav" />
+<div class="container tc-main" id="article-video">
+	<div class="row">
+		<div class="span9">
+			<div class="tc-box first-box article-box">
+		    	<h2>{$post_title}</h2>
+		    	<div class="article-infobox">
+		    		<span>{$user_nicename|default=$user_login}发布于 {$post_date} <if condition="!empty($post_source)">来源：{$post_source} </if></span>
+		    		<span class="pull-right">
+						<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+					</span>
+					<div style="clear:both"></div>
+		    	</div>
+		    	<div id="article_content">
+					<div id="youkuplayer" style="width:100%;height:200px;"></div>
+					<div style="margin-bottom:40px;background: #ccc;">广告业务请联系QQ：2082348579</div>
+					<script type="text/javascript" src="//player.youku.com/jsapi"></script>
+					<script type="text/javascript">
+					var player = new YKU.Player('youkuplayer',{
+					styleid: '0',
+					client_id: '9fb807e6796b7fbb',
+					vid: '{$vid}',
+					newPlayer: true,
+					autoplay: true
+					});
+					</script>
+					<div style="padding:5px;">
+						<if condition="empty($smeta['thumb'])"> 
+							<img src="__TMPL__Public/assets/images/default_tupian1.png" class="img-responsive" alt="{$post_title}"/>
+						<else /> 
+							<img src="{:sp_get_asset_upload_path($smeta['thumb'])}" class="img-responsive img-thumbnail" alt="{$post_title}" />
+						</if>
+					</div>
+					
+					{$post_content}
+					
+					<div class="zfb-wx">
+						<span><img src="__ROOT__/public/images/weixin_ds.jpg"><br>微信打赏支持</span>
+						<span><img src="__ROOT__/public/images/zfb_ds.jpg"><br>支付宝打赏支持</span>
+					</div>
+		    	</div>
+                
+				<div style="color: #999; background-color: #f2f2f2;text-align: center;padding:5px 0;margin-top:40px;">
+					注：本文为{$user_nicename|default=$user_login}发布，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系QQ:2082348579，我们会及时删除。
+				</div>
+				
+				<div class="seezan"> 
+					<a class="yuan-red" href="javascript:;"><i class="fa fa-eye"></i><span>{$post_hits}</span></a>
+					<a class="yuan-green" href="{:U('article/do_like',array('id'=>$article_id))}" class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$post_like}</span></a>
+					<a class="yuan-orange" href="{:U('user/favorite/do_favorite',array('id'=>$article_id))}" class="js-favorite-btn" data-title="{$post_title}" data-url="{:leuu('article/index',array('id'=>$article_id,'cid'=>$term_id))}" data-key="{:sp_get_favorite_key('posts',$article_id)}">
+						<i class="fa fa-star-o"></i>
+					</a>
+				</div>
+    			
+		    	<div class="zan">
+					<if condition="!empty($prev)">
+					<a href="{:leuu('article/index',array('id'=>$prev['object_id'],'cid'=>$prev['term_id']))}" class="btn btn-primary pull-left">上一篇</a>
+					</if>
+					<if condition="!empty($next)">
+					<a href="{:leuu('article/index',array('id'=>$next['object_id'],'cid'=>$next['term_id']))}" class="btn btn-warning pull-right">下一篇</a>
+					</if>
+					<div class="clearfix"></div>
+				</div>
+		    	
+		    	
+		    	{:hook('comment',array(
+		    		'post_id'=>$article_id,
+		    		'post_table'=>'posts',
+		    		'post_title'=>$post_title
+		    	))}
+		    </div>
+		    
+		</div>
+		<div class="span3">
+			
+			<div class="tc-box">
+	        	<div class="ranking">
+	        		<script>
+					var mediav_ad_pub = '2pjNVo_2060800';
+					var mediav_ad_width = '250';
+					var mediav_ad_height = '250';
+					</script>
+					<script type="text/javascript" language="javascript" charset="utf-8"  src="//static.mediav.com/js/mvf_g2.js"></script>
+				</div>
+			</div>
+        	
+        	<div class="tc-box">
+	        	<div class="headtitle">
+	        		<h2>热门文章</h2>
+	        	</div>
+	        	<div class="ranking">
+	        		<php>
+						$hot_articles=sp_sql_posts("cid:$portal_hot_articles;field:post_title,post_excerpt,object_id,smeta,term_id;order:post_hits desc;limit:5;"); 
+					</php>
+		        	<ul class="unstyled">
+		        		<foreach name="hot_articles" item="vo">
+		        			<php>$top=$key<3?"top3":"";</php>
+							<li class="{$top}"><i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></li>
+						</foreach>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="tc-box">
+	        	<div class="ranking">
+					<script type="text/javascript">
+						document.write('<a style="display:none!important" id="tanx-a-mm_17840498_5202158_120942700"></a>');
+						tanx_s = document.createElement("script");
+						tanx_s.type = "text/javascript";
+						tanx_s.charset = "gbk";
+						tanx_s.id = "tanx-s-mm_17840498_5202158_120942700";
+						tanx_s.async = true;
+						tanx_s.src = "http://p.tanx.com/ex?i=mm_17840498_5202158_120942700";
+						tanx_h = document.getElementsByTagName("head")[0];
+						if(tanx_h)tanx_h.insertBefore(tanx_s,tanx_h.firstChild);
+					</script>
+				</div>
+			</div>
+			
+			<div class="tc-box">
+	        	<div class="headtitle">
+	        		<h2>最新评论</h2>
+	        	</div>
+	        	<div class="comment-ranking">
+	        		<php>$last_comments=sp_get_comments("field:*;limit:0,5;order:createtime desc;");</php>
+	        		<foreach name="last_comments" item="vo">
+	                    <div class="comment-ranking-inner">
+	                        <i class="fa fa-comment"></i>
+	                        <a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}:</a>
+	                        <span>{$vo.content}</span>
+	                        <a href="__ROOT__/{$vo.url}#comment{$vo.id}">查看原文</a>
+	                        <span class="comment-time">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span>
+	                    </div>
+                    </foreach>
+                </div>
+			</div>
+        	
+		</div>
+		
+	</div>
+              
+<tc_include file="Public:footer"/>
+</div>
+
+<tc_include file="Public:scripts"/>
+</body>
+</html>
