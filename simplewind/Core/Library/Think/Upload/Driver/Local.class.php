@@ -72,7 +72,7 @@ class Local{
      */
     public function save($file, $replace=true) {
         $filename = $this->rootPath . $file['savepath'] . $file['savename'];
-
+		
         /* 不覆盖同名文件 */ 
         if (!$replace && is_file($filename)) {
             $this->error = '存在同名文件' . $file['savename'];
@@ -84,6 +84,7 @@ class Local{
             $this->error = '文件上传保存错误！';
             return false;
         }
+		
         
         return true;
     }

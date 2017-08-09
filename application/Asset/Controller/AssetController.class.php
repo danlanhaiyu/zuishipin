@@ -47,7 +47,7 @@ class AssetController extends AdminbaseController {
                 $app= strtolower($app);
             }
             
-			$savepath=$app.'/'.date('Ymd').'/';
+			$savepath=$app.'/'.date('Ym').'/';
             //上传处理类
             $config=array(
             		'rootPath' => './'.C("UPLOADPATH"),
@@ -63,6 +63,7 @@ class AssetController extends AdminbaseController {
             if ($info) {
                 //上传成功
                 $oriName = $_FILES['file']['name'];
+				
                 //写入附件数据库信息
                 $first=array_shift($info);
                 if(!empty($first['url'])){
@@ -89,7 +90,25 @@ class AssetController extends AdminbaseController {
                 	$preview_url=$url;
                 }
                 $filepath = $savepath.$first['savename'];
-                
+				/*
+				//20170807 TD 将图片进行裁剪另外生成缩略图
+				$thefile = "data/upload/".$filepath;
+				$imagetd = new \Think\Image();
+				$imagetd->open($thefile);
+				//20170807 TD 生成一个居中裁剪为300*300的缩略图并保存为****_thunm.***
+				$newfn = explode(".",$first['savename']);
+				//$this->ajaxReturn(array('name'=>'','status'=>0,'message'=>"data/upload/".$first['savepath'] . $newfn[0]."_thunm.".$newfn[1]));
+				$imagetd->thumb(300, 300,\Think\Image::IMAGE_THUMB_FIXED)->save("data/upload/".$first['savepath'] . $newfn[0]."_thumb.".$newfn[1]);
+				*/
+				/*
+				IMAGE_THUMB_SCALE     =   1 ; //等比例缩放类型
+				IMAGE_THUMB_FILLED    =   2 ; //缩放后填充类型
+				IMAGE_THUMB_CENTER    =   3 ; //居中裁剪类型
+				IMAGE_THUMB_NORTHWEST =   4 ; //左上角裁剪类型
+				IMAGE_THUMB_SOUTHEAST =   5 ; //右下角裁剪类型
+				IMAGE_THUMB_FIXED     =   6 ; //固定尺寸缩放类型
+				*/
+				
 				$this->ajaxReturn(array('preview_url'=>$preview_url,'filepath'=>$filepath,'url'=>$url,'name'=>$oriName,'status'=>1,'message'=>'success'));
             } else {
                 $this->ajaxReturn(array('name'=>'','status'=>0,'message'=>$upload->getError()));

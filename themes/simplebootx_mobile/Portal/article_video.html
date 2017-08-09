@@ -40,9 +40,16 @@
 					});
 					</script>
 					<div style="padding:5px;">
-						<if condition="empty($smeta['thumb'])"> 
-							<img src="__TMPL__Public/assets/images/default_tupian1.png" class="img-responsive" alt="{$post_title}"/>
-						<else /> 
+						<if condition="empty($smeta['thumb'])">
+							
+						<else />
+							<!--div style="display:none">
+								<php>
+									$thumb_arr=explode(".",$smeta['thumb']);
+									$thumb = $thumb_arr[0]."_thumb.".$thumb_arr[1];
+								</php>
+								<img src="{:sp_get_asset_upload_path($thumb)}" width="0" height="0" />
+							</div-->
 							<img src="{:sp_get_asset_upload_path($smeta['thumb'])}" class="img-responsive img-thumbnail" alt="{$post_title}" />
 						</if>
 					</div>

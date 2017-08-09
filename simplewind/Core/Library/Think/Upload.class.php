@@ -202,9 +202,22 @@ class Upload {
                     continue;
                 }
             }
-
+			
             /* 保存文件 并记录保存成功的文件 */
             if ($this->uploader->save($file,$this->replace)) {
+				
+				/*//$driver = null;
+				//$imgclass = 'Think\\Image\\Driver\\{$driver}';
+				//20170807 TD 将图片进行裁剪另外生成缩略图
+				$imagetd = new \Think\Image();
+				$imagetd->open($file['savepath'].$file['savename']);
+				$this->error = '3';
+				return false;
+				//20170807 TD 生成一个居中裁剪为300*300的缩略图并保存为****_thunm.***
+				$newfn = explode(".",$file['savename']);
+				$imagetd->thumb(300, 300)->save($file['savepath'] . $newfn[0]."_thunm.".$newfn[1]);*/
+				
+				
                 unset($file['error'], $file['tmp_name']);
                 $info[$key] = $file;
             } else {
